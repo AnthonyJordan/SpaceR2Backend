@@ -1,7 +1,10 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using SpaceR2Backend.DAOs;
 using SpaceR2Backend.Models;
+using System.Web.Helpers;
+using System.Web.Http.Results;
 
 namespace SpaceR2Backend.Controllers
 {
@@ -15,10 +18,9 @@ namespace SpaceR2Backend.Controllers
             DAO = poDDAO;
         }
         [HttpGet]
-        public ActionResult<NasaPoDModel> GetNasaPoD()
+        public string GetNasaPoD()
         {
-            Console.WriteLine("test");
-            return Ok(DAO.LoadPoD());
+            return JsonConvert.SerializeObject(Ok(DAO.LoadPoD()));
         }
 
     }

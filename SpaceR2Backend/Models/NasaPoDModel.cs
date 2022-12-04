@@ -2,12 +2,12 @@
 {
     public class NasaPoDModel
     {
-        private readonly string? title;
-        private readonly string? date;
-        private readonly string? explanation;
-        private readonly string? url;
-        private readonly string? hdurl;
-        private readonly string? copyright;
+        public string? title { get; set; }
+        public string? date { get; set; }
+        public string? explanation { get; set; }
+        public string? url { get; set; }
+        public string? hdurl { get; set; }
+        public string? copyright { get; set; }
 
 
 
