@@ -1,10 +1,6 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using SpaceR2Backend.DAOs;
-using SpaceR2Backend.Models;
-using System.Web.Helpers;
-using System.Web.Http.Results;
 
 namespace SpaceR2Backend.Controllers
 {

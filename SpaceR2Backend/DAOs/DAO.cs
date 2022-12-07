@@ -10,9 +10,5 @@
             _config = configuration;
   
         }
-        protected string LoadConnectionString(string id = "Default")
-        {
-            return _config["ConnectionStrings:" + id];
-        }
     }
 }

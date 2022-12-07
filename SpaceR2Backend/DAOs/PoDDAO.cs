@@ -1,11 +1,7 @@
-﻿using Dapper;
-using Hangfire;
-using Microsoft.Data.Sqlite;
-using Newtonsoft.Json;
+﻿using Hangfire;
 using Newtonsoft.Json.Linq;
 using SpaceR2Backend.database;
 using SpaceR2Backend.Models;
-using System.Data;
 
 namespace SpaceR2Backend.DAOs
 {
