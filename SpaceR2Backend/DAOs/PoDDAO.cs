@@ -3,6 +3,7 @@ using Hangfire;
 using Microsoft.Data.Sqlite;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using SpaceR2Backend.database;
 using SpaceR2Backend.Models;
 using System.Data;
 
@@ -17,16 +18,23 @@ namespace SpaceR2Backend.DAOs
 
         public NasaPoDModel LoadPoD()
         {
-            using IDbConnection cnn = new SqliteConnection(LoadConnectionString());
-            var output = cnn.Query<NasaPoDModel>("SELECT * FROM NasaPoD", new { id = 1 });
-            return (NasaPoDModel)output.First();
+            using (var context = new Context()) {
+                var output = context.NasaPoD.First();
+                return (NasaPoDModel)output;
+            }   
         }
 
         public void SavePoD(NasaPoDModel nasaPoD)
         {
-            using (IDbConnection cnn = new SqliteConnection(LoadConnectionString()))
+            using (var context = new Context())
             {
-                cnn.Execute("UPDATE NasaPoD SET copyright = @copyright, url = @url, hdurl = @hdurl, title = @title, explanation = @explanation WHERE id = 1", nasaPoD);
+                NasaPoDModel DBPod = context.NasaPoD.FirstOrDefault();
+                if (DBPod != null)
+                {
+                    context.NasaPoD.Remove(DBPod);
+                }
+                context.NasaPoD.Add(nasaPoD);
+                context.SaveChanges();
             }
         }
         //todo: HttpClient DI and move demo key to config
