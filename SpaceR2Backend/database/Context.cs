@@ -9,6 +9,8 @@ namespace SpaceR2Backend.database
         public DbSet<PersonModel> People { get; set; }
         public DbSet<Launch> Launches { get; set; }
 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) => optionsBuilder.UseSqlite("Data Source = database/SpaceR2.db");
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) { 
+            optionsBuilder.UseSqlite("Data Source = database/SpaceR2.db"); 
+        }
     }
 }

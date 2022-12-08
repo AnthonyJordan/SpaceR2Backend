@@ -22,6 +22,7 @@ builder.Services.AddHangfireServer();
 //todo: fix best practices
 builder.Services.AddScoped<PoDDAO, PoDDAO>();
 builder.Services.AddScoped<PeopleDAO, PeopleDAO>();
+builder.Services.AddScoped<LaunchDAO, LaunchDAO>();
 
 var app = builder.Build();
 
