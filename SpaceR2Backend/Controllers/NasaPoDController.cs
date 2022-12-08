@@ -11,7 +11,7 @@ namespace SpaceR2Backend.Controllers
         private readonly PoDDAO DAO;
         public NasaPoDController(PoDDAO poDDAO)
         {
-            DAO = poDDAO;
+            this.DAO = poDDAO;
         }
         [HttpGet]
         public string GetNasaPoD()

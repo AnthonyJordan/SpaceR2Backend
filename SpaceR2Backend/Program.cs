@@ -20,7 +20,8 @@ builder.Services.AddHangfire(configuration => configuration
 builder.Services.AddHangfireServer();
 
 //todo: fix best practices
-builder.Services.AddScoped<PoDDAO, PoDDAO>();  
+builder.Services.AddScoped<PoDDAO, PoDDAO>();
+builder.Services.AddScoped<PeopleDAO, PeopleDAO>();
 
 var app = builder.Build();
 
