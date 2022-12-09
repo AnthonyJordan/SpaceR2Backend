@@ -1,4 +1,5 @@
 ﻿using Hangfire;
+using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json.Linq;
 using SpaceR2Backend.database;
 using SpaceR2Backend.Models;
@@ -37,24 +38,66 @@ namespace SpaceR2Backend.DAOs
 
         public void SaveLaunches(List<Launch> Launches)
         {
-            using (var context = new Context())
-            {
-                List<Launch> DBLaunches= context.Launches.ToList();
-                if (DBLaunches != null)
-                {
-                    context.Launches.RemoveRange(DBLaunches);
-                }         
-            }
+            
+               // List<Launch> DBLaunches = context.Launches.ToList();
+                /*              if (DBLaunches != null)
+                              {
+                                  context.Database.ExecuteSql($"DELETE FROM Launches;");
+                                  context.Database.ExecuteSql($"DELETE FROM Configuration;");
+                                  context.Database.ExecuteSql($"DELETE FROM LauncheServiceProvider;");
+                                  context.Database.ExecuteSql($"DELETE FROM Location;");
+                                  context.Database.ExecuteSql($"DELETE FROM Mission;");
+                                  context.Database.ExecuteSql($"DELETE FROM Orbit;");
+                                  context.Database.ExecuteSql($"DELETE FROM Pad;");
+                                  context.Database.ExecuteSql($"DELETE FROM Rocket;");
+                                  context.Database.ExecuteSql($"DELETE FROM Status;");
+                                  context.SaveChanges();
+                              }*/
 
-            foreach (Launch launch in Launches)
-            {
-                using (var context = new Context())
+
+                foreach (Launch launch in Launches)
                 {
-/*
-                    context.Launches.Add(launch);
-                    context.SaveChanges();*/
+                    using (var context = new Context())
+                    {
+                  
+                    var entity = context.Launches.Add(launch);
+                    if (context.Statuses.ToList().Contains(launch.Status))
+                    {
+                        entity.Reference("Status").TargetEntry.State = EntityState.Modified;
+                    }
+                    if (context.LaunchServiceProviders.ToList().Contains(launch.LaunchServiceProvider))
+                    {
+                        entity.Reference("LaunchServiceProvider").TargetEntry.State = EntityState.Modified;
+                    }
+                    if (context.Rockets.ToList().Contains(launch.Rocket))
+                    {
+                        entity.Reference("Rocket").TargetEntry.State = EntityState.Modified;
+                    }
+                    if (context.Missions.ToList().Contains(launch.Mission))
+                    {
+                        entity.Reference("Mission").TargetEntry.State = EntityState.Modified;
+                    }
+                    if (context.Pads.ToList().Contains(launch.Pad))
+                    {
+                        entity.Reference("Pad").TargetEntry.State = EntityState.Modified;
+                    }
+                    if (context.Locations.ToList().Contains(launch.Pad?.Location))
+                    {
+                        entity.Reference("Pad").TargetEntry.Reference("Location").TargetEntry.State = EntityState.Modified;
+                    }
+                    if (context.Configurations.ToList().Contains(launch.Rocket?.Configuration))
+                    {
+                        entity.Reference("Rocket").TargetEntry.Reference("Configuration").TargetEntry.State = EntityState.Modified;
+                    }
+                    if (context.Orbits.ToList().Contains(launch.Mission?.Orbit))
+                    {
+                        entity.Reference("Mission").TargetEntry.Reference("Orbit").TargetEntry.State = EntityState.Modified;
+                    }
+                    context.SaveChanges();
+                    }
                 }
-            }
+                
+            
         }
     }
 }

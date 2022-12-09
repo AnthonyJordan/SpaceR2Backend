@@ -8,6 +8,6 @@
         public string? country_code { get; set; }
         public string? map_image { get; set; }
 
-
+        public List<Pad> Pads { get; set; }
     }
 }

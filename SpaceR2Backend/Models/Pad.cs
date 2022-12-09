@@ -11,5 +11,6 @@
         public string? Longitude { get; set; }
         public string? Latitude { get; set;}
         public Location? Location { get; set; }
+        public List<Launch> Launches { get; set; }
     }
 }

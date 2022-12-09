@@ -1,7 +1,13 @@
-﻿namespace SpaceR2Backend.Models
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+
+namespace SpaceR2Backend.Models
 {
     public class Launch
-    { 
+    {
+        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public int DBID { get; set; }
         public string Id { get; set; }
         public string? Url { get; set; }
         public string? Name { get; set; }

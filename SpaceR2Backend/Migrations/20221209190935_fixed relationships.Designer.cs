@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SpaceR2Backend.database;
 
@@ -10,9 +11,11 @@ using SpaceR2Backend.database;
 namespace SpaceR2Backend.Migrations
 {
     [DbContext(typeof(Context))]
-    partial class ContextModelSnapshot : ModelSnapshot
+    [Migration("20221209190935_fixed relationships")]
+    partial class fixedrelationships
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -42,17 +45,12 @@ namespace SpaceR2Backend.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Configurations", "PD");
+                    b.ToTable("Configuration", "PD");
                 });
 
             modelBuilder.Entity("SpaceR2Backend.Models.Launch", b =>
                 {
-                    b.Property<int>("DBID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
                     b.Property<string>("Id")
-                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Image")
@@ -88,7 +86,7 @@ namespace SpaceR2Backend.Migrations
                     b.Property<string>("Window_start")
                         .HasColumnType("TEXT");
 
-                    b.HasKey("DBID");
+                    b.HasKey("Id");
 
                     b.HasIndex("LaunchServiceProviderId");
 
@@ -120,7 +118,7 @@ namespace SpaceR2Backend.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("LaunchServiceProviders", "PD");
+                    b.ToTable("LaunchServiceProvider", "PD");
                 });
 
             modelBuilder.Entity("SpaceR2Backend.Models.Location", b =>
@@ -143,7 +141,7 @@ namespace SpaceR2Backend.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Locations", "PD");
+                    b.ToTable("Location", "PD");
                 });
 
             modelBuilder.Entity("SpaceR2Backend.Models.Mission", b =>
@@ -171,7 +169,7 @@ namespace SpaceR2Backend.Migrations
 
                     b.HasIndex("OrbitId");
 
-                    b.ToTable("Missions", "PD");
+                    b.ToTable("Mission", "PD");
                 });
 
             modelBuilder.Entity("SpaceR2Backend.Models.NasaPoDModel", b =>
@@ -213,7 +211,7 @@ namespace SpaceR2Backend.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Orbits", "PD");
+                    b.ToTable("Orbit", "PD");
                 });
 
             modelBuilder.Entity("SpaceR2Backend.Models.Pad", b =>
@@ -250,7 +248,7 @@ namespace SpaceR2Backend.Migrations
 
                     b.HasIndex("LocationId");
 
-                    b.ToTable("Pads", "PD");
+                    b.ToTable("Pad", "PD");
                 });
 
             modelBuilder.Entity("SpaceR2Backend.Models.PersonModel", b =>
@@ -279,7 +277,7 @@ namespace SpaceR2Backend.Migrations
 
                     b.HasIndex("ConfigurationId");
 
-                    b.ToTable("Rockets", "PD");
+                    b.ToTable("Rocket", "PD");
                 });
 
             modelBuilder.Entity("SpaceR2Backend.Models.Status", b =>
@@ -299,7 +297,7 @@ namespace SpaceR2Backend.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Statuses", "PD");
+                    b.ToTable("Status", "PD");
                 });
 
             modelBuilder.Entity("SpaceR2Backend.Models.Launch", b =>

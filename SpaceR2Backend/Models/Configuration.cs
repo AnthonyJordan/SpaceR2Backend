@@ -9,6 +9,7 @@
         public string? Family { get; set; }
         public string? Full_name { get; set; }
         public string? Variant { get; set; }
+        public List<Rocket> Rockets { get; set; }
 
     }
 }

@@ -4,5 +4,6 @@
     {
         public int Id { get; set; }
         public Configuration? Configuration { get; set; }
+        public List<Launch> Launches { get; set; }
     }
 }

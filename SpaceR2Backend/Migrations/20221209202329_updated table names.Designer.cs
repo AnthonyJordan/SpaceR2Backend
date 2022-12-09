@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SpaceR2Backend.database;
 
@@ -10,9 +11,11 @@ using SpaceR2Backend.database;
 namespace SpaceR2Backend.Migrations
 {
     [DbContext(typeof(Context))]
-    partial class ContextModelSnapshot : ModelSnapshot
+    [Migration("20221209202329_updated table names")]
+    partial class updatedtablenames
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -47,12 +50,7 @@ namespace SpaceR2Backend.Migrations
 
             modelBuilder.Entity("SpaceR2Backend.Models.Launch", b =>
                 {
-                    b.Property<int>("DBID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
                     b.Property<string>("Id")
-                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Image")
@@ -88,7 +86,7 @@ namespace SpaceR2Backend.Migrations
                     b.Property<string>("Window_start")
                         .HasColumnType("TEXT");
 
-                    b.HasKey("DBID");
+                    b.HasKey("Id");
 
                     b.HasIndex("LaunchServiceProviderId");
 

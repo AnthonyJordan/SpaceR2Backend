@@ -7,5 +7,6 @@
         public string? Name { get; set; }
         public string? Description { get; set; }
         public string? Abbrev { get; set; }
+        public List<Launch> Launches { get; set; }
     }
 }

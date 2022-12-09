@@ -8,5 +8,6 @@
         public string? Launch_designator { get; set; }
         public string? type { get; set; }
         public Orbit? Orbit { get; set; }
+        public List<Launch> Launches { get; set; }
     }
 }
