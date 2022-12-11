@@ -1,4 +1,5 @@
-﻿namespace SpaceR2Backend.Models
+﻿using Newtonsoft.Json;
+namespace SpaceR2Backend.Models
 {
     //Rocket configuration. Not to be confused with other configs.
     public class Configuration
@@ -9,6 +10,7 @@
         public string? Family { get; set; }
         public string? Full_name { get; set; }
         public string? Variant { get; set; }
+        [JsonIgnore]
         public List<Rocket> Rockets { get; set; }
 
     }

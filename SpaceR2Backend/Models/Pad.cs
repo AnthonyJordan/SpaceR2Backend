@@ -1,4 +1,6 @@
-﻿namespace SpaceR2Backend.Models
+﻿using Newtonsoft.Json;
+
+namespace SpaceR2Backend.Models
 {
     public class Pad
     {
@@ -11,6 +13,7 @@
         public string? Longitude { get; set; }
         public string? Latitude { get; set;}
         public Location? Location { get; set; }
+        [JsonIgnore]
         public List<Launch> Launches { get; set; }
     }
 }

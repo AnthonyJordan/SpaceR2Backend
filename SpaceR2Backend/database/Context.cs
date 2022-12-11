@@ -12,7 +12,7 @@ namespace SpaceR2Backend.database
         public DbSet<Pad> Pads { get; set; }
         public DbSet<Rocket> Rockets { get; set; }
         public DbSet<Configuration> Configurations { get; set; }
-        public DbSet<LaunchServiceProvider> LaunchServiceProviders { get; set; }
+        public DbSet<Launch_Service_Provider> Launch_Service_Providers { get; set; }
         public DbSet<Location> Locations { get; set; }
         public DbSet<Orbit> Orbits { get; set; }
         public DbSet<Mission> Missions { get; set; }
@@ -32,7 +32,7 @@ namespace SpaceR2Backend.database
               .OnDelete(DeleteBehavior.SetNull);
 
             builder.Entity<Launch>()
-              .HasOne(lsp => lsp.LaunchServiceProvider)
+              .HasOne(lsp => lsp.Launch_Service_Provider)
               .WithMany(l => l.Launches)
               .OnDelete(DeleteBehavior.SetNull);
 

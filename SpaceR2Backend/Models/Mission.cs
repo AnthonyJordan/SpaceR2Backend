@@ -1,4 +1,6 @@
-﻿namespace SpaceR2Backend.Models
+﻿using Newtonsoft.Json;
+
+namespace SpaceR2Backend.Models
 {
     public class Mission
     {
@@ -8,6 +10,7 @@
         public string? Launch_designator { get; set; }
         public string? type { get; set; }
         public Orbit? Orbit { get; set; }
+        [JsonIgnore]
         public List<Launch> Launches { get; set; }
     }
 }

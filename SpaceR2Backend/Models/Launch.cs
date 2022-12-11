@@ -15,7 +15,7 @@ namespace SpaceR2Backend.Models
         public string? Last_updated { get; set; }
         public string? Window_start { get; set; }
         public string? Window_end { get; set; }
-        public LaunchServiceProvider? LaunchServiceProvider { get; set; }
+        public Launch_Service_Provider? Launch_Service_Provider { get; set; }
         public Rocket? Rocket { get; set; }
         public Mission? Mission { get; set; }
         public Pad? Pad { get; set; }

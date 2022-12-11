@@ -17,7 +17,9 @@ namespace SpaceR2Backend.DAOs
         {
             using (var context = new Context())
             {
-                var output = context.Launches.ToList();
+                var output = context.Launches.Include(launch => launch.Status).Include(launch => launch.Launch_Service_Provider)
+                    .Include(launch => launch.Rocket)?.ThenInclude(rocket => rocket.Configuration).Include(launch => launch.Mission)?
+                    .ThenInclude(mission => mission.Orbit).Include(launch => launch.Pad)?.ThenInclude(pad => pad.Location).ToList();
                 return output;
             }
         }
@@ -38,24 +40,26 @@ namespace SpaceR2Backend.DAOs
 
         public void SaveLaunches(List<Launch> Launches)
         {
-            
-               // List<Launch> DBLaunches = context.Launches.ToList();
-                /*              if (DBLaunches != null)
-                              {
-                                  context.Database.ExecuteSql($"DELETE FROM Launches;");
-                                  context.Database.ExecuteSql($"DELETE FROM Configuration;");
-                                  context.Database.ExecuteSql($"DELETE FROM LauncheServiceProvider;");
-                                  context.Database.ExecuteSql($"DELETE FROM Location;");
-                                  context.Database.ExecuteSql($"DELETE FROM Mission;");
-                                  context.Database.ExecuteSql($"DELETE FROM Orbit;");
-                                  context.Database.ExecuteSql($"DELETE FROM Pad;");
-                                  context.Database.ExecuteSql($"DELETE FROM Rocket;");
-                                  context.Database.ExecuteSql($"DELETE FROM Status;");
-                                  context.SaveChanges();
-                              }*/
+            using (var context = new Context())
+            {
+                List<Launch> DBLaunches = context.Launches.ToList();
+                if (DBLaunches != null)
+                {
+                    context.Database.ExecuteSql($"DELETE FROM Launches;");
+                    context.Database.ExecuteSql($"DELETE FROM Configurations;");
+                    context.Database.ExecuteSql($"DELETE FROM Launch_Service_Providers;");
+                    context.Database.ExecuteSql($"DELETE FROM Locations;");
+                    context.Database.ExecuteSql($"DELETE FROM Missions;");
+                    context.Database.ExecuteSql($"DELETE FROM Orbits;");
+                    context.Database.ExecuteSql($"DELETE FROM Pads;");
+                    context.Database.ExecuteSql($"DELETE FROM Rockets;");
+                    context.Database.ExecuteSql($"DELETE FROM Statuses;");
+                    context.SaveChanges();
+                }
+            }
 
 
-                foreach (Launch launch in Launches)
+            foreach (Launch launch in Launches)
                 {
                     using (var context = new Context())
                     {
@@ -65,9 +69,9 @@ namespace SpaceR2Backend.DAOs
                     {
                         entity.Reference("Status").TargetEntry.State = EntityState.Modified;
                     }
-                    if (context.LaunchServiceProviders.ToList().Contains(launch.LaunchServiceProvider))
+                    if (context.Launch_Service_Providers.ToList().Contains(launch.Launch_Service_Provider))
                     {
-                        entity.Reference("LaunchServiceProvider").TargetEntry.State = EntityState.Modified;
+                        entity.Reference("Launch_Service_Provider").TargetEntry.State = EntityState.Modified;
                     }
                     if (context.Rockets.ToList().Contains(launch.Rocket))
                     {
