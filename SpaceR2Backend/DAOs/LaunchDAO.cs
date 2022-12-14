@@ -8,7 +8,7 @@ namespace SpaceR2Backend.DAOs
 {
     public class LaunchDAO : DAO
     {
-        public LaunchDAO(IConfiguration configuration) : base(configuration)
+        public LaunchDAO(IConfiguration configuration, HttpClient httpClient) : base(configuration, httpClient)
         {
             RecurringJob.AddOrUpdate("Launches", () => SaveLaunchesFromAPI(), Cron.Hourly);
         }
@@ -26,37 +26,27 @@ namespace SpaceR2Backend.DAOs
 
         public async Task SaveLaunchesFromAPI()
         {
-            HttpClient httpClient = new HttpClient();
-            string dateTime= DateTime.Now.ToString("s");
-            JObject respone = JObject.Parse(await httpClient.GetStringAsync($"https://ll.thespacedevs.com/2.2.0/launch/?limit=10&ordering=window_start&window_start__gt={dateTime}"));
-            List<JToken> JTokens = respone["results"].Children().ToList();
-            List<Launch> Launches = new List<Launch>();
-            foreach (JToken JToken in JTokens)
+            try
             {
-                Launches.Add(JToken.ToObject<Launch>());
+                string dateTime = DateTime.Now.ToString("s");
+                JObject respone = JObject.Parse(await _httpClient.GetStringAsync($"https://ll.thespacedevs.com/2.2.0/launch/?limit=10&ordering=window_start&window_start__gt={dateTime}"));
+                List<JToken> JTokens = respone["results"].Children().ToList();
+                List<Launch> Launches = new List<Launch>();
+                foreach (JToken JToken in JTokens)
+                {
+                    Launches.Add(JToken.ToObject<Launch>());
+                }
+                SaveLaunches(Launches);
+            } catch(Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
             }
-            SaveLaunches(Launches);
         }
 
         public void SaveLaunches(List<Launch> Launches)
         {
-            using (var context = new Context())
-            {
-                List<Launch> DBLaunches = context.Launches.ToList();
-                if (DBLaunches != null)
-                {
-                    context.Database.ExecuteSql($"DELETE FROM Launches;");
-                    context.Database.ExecuteSql($"DELETE FROM Configurations;");
-                    context.Database.ExecuteSql($"DELETE FROM Launch_Service_Providers;");
-                    context.Database.ExecuteSql($"DELETE FROM Locations;");
-                    context.Database.ExecuteSql($"DELETE FROM Missions;");
-                    context.Database.ExecuteSql($"DELETE FROM Orbits;");
-                    context.Database.ExecuteSql($"DELETE FROM Pads;");
-                    context.Database.ExecuteSql($"DELETE FROM Rockets;");
-                    context.Database.ExecuteSql($"DELETE FROM Statuses;");
-                    context.SaveChanges();
-                }
-            }
+
+            ClearDatabase();
 
 
             foreach (Launch launch in Launches)
@@ -102,6 +92,27 @@ namespace SpaceR2Backend.DAOs
                 }
                 
             
+        }
+
+        public void ClearDatabase()
+        {
+            using (var context = new Context())
+            {
+                List<Launch> DBLaunches = context.Launches.ToList();
+                if (DBLaunches != null)
+                {
+                    context.Database.ExecuteSql($"DELETE FROM Launches;");
+                    context.Database.ExecuteSql($"DELETE FROM Configurations;");
+                    context.Database.ExecuteSql($"DELETE FROM Launch_Service_Providers;");
+                    context.Database.ExecuteSql($"DELETE FROM Locations;");
+                    context.Database.ExecuteSql($"DELETE FROM Missions;");
+                    context.Database.ExecuteSql($"DELETE FROM Orbits;");
+                    context.Database.ExecuteSql($"DELETE FROM Pads;");
+                    context.Database.ExecuteSql($"DELETE FROM Rockets;");
+                    context.Database.ExecuteSql($"DELETE FROM Statuses;");
+                    context.SaveChanges();
+                }
+            }
         }
     }
 }

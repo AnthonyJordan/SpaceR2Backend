@@ -7,7 +7,7 @@ namespace SpaceR2Backend.DAOs
 {
     public class PoDDAO : DAO
     {
-        public PoDDAO(IConfiguration configuration) : base(configuration)
+        public PoDDAO(IConfiguration configuration, HttpClient httpClient) : base(configuration, httpClient)
         {
             RecurringJob.AddOrUpdate("NasaPoD", () => SaveNasaPodFromAPI(), Cron.Daily);
         }
@@ -33,13 +33,18 @@ namespace SpaceR2Backend.DAOs
                 context.SaveChanges();
             }
         }
-        //todo: HttpClient DI and move demo key to config
         public async Task SaveNasaPodFromAPI()
         {
-            HttpClient httpClient = new HttpClient();
-            JToken respone = JToken.Parse(await httpClient.GetStringAsync("https://api.nasa.gov/planetary/apod?api_key=DEMO_KEY"));
-            NasaPoDModel NasaPoD = respone.ToObject<NasaPoDModel>();
-            SavePoD(NasaPoD);
+            try
+            {
+                JToken respone = JToken.Parse(await _httpClient.GetStringAsync("https://api.nasa.gov/planetary/apod?api_key=DEMO_KEY"));
+                NasaPoDModel NasaPoD = respone.ToObject<NasaPoDModel>();
+                SavePoD(NasaPoD);
+            }
+            catch (Exception ex) {
+                Console.WriteLine(ex.ToString());
+            }
+            
         }
         
     }

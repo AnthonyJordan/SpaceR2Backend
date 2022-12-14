@@ -23,6 +23,7 @@ builder.Services.AddHangfireServer();
 builder.Services.AddScoped<PoDDAO, PoDDAO>();
 builder.Services.AddScoped<PeopleDAO, PeopleDAO>();
 builder.Services.AddScoped<LaunchDAO, LaunchDAO>();
+builder.Services.AddScoped<HttpClient, HttpClient>();
 
 var app = builder.Build();
 

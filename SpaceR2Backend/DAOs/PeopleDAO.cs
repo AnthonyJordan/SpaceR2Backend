@@ -8,7 +8,7 @@ namespace SpaceR2Backend.DAOs
     public class PeopleDAO : DAO
     {
 
-        public PeopleDAO(IConfiguration configuration) : base(configuration)
+        public PeopleDAO(IConfiguration configuration, HttpClient httpClient) : base(configuration, httpClient)
         {
             RecurringJob.AddOrUpdate("People", () => SavePeopleFromAPI(), Cron.Daily);
         }
@@ -24,15 +24,20 @@ namespace SpaceR2Backend.DAOs
 
         public async Task SavePeopleFromAPI()
         {
-            HttpClient httpClient = new HttpClient();
-            JObject respone = JObject.Parse( await httpClient.GetStringAsync("http://api.open-notify.org/astros.json"));
-            List<JToken> JTokens = respone["people"].Children().ToList();
-            List<PersonModel> People = new List<PersonModel>();
-            foreach(JToken JToken in JTokens)
+            try
             {
-                People.Add(JToken.ToObject<PersonModel>());
+                JObject respone = JObject.Parse(await _httpClient.GetStringAsync("http://api.open-notify.org/astros.json"));
+                List<JToken> JTokens = respone["people"].Children().ToList();
+                List<PersonModel> People = new List<PersonModel>();
+                foreach (JToken JToken in JTokens)
+                {
+                    People.Add(JToken.ToObject<PersonModel>());
+                }
+                SavePeople(People);
+            } catch(Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
             }
-            SavePeople(People);
         }
 
         public void SavePeople(List<PersonModel> People)
