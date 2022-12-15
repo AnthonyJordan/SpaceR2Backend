@@ -1,6 +1,8 @@
 using Hangfire;
 using Hangfire.Storage.SQLite;
+using Microsoft.EntityFrameworkCore;
 using SpaceR2Backend.DAOs;
+using SpaceR2Backend.database;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -39,5 +41,11 @@ app.UseAuthorization();
 app.UseHangfireDashboard();
 
 app.MapControllers();
+{
+    using (var context = new Context())
+    {
+        context.Database.Migrate();
+    }
+}
 
 app.Run();
