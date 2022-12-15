@@ -1,7 +1,5 @@
 using Hangfire;
-using Hangfire.SqlServer;
 using Hangfire.Storage.SQLite;
-using Microsoft.Extensions.Configuration;
 using SpaceR2Backend.DAOs;
 
 var builder = WebApplication.CreateBuilder(args);
