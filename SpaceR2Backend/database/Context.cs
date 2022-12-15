@@ -18,7 +18,7 @@ namespace SpaceR2Backend.database
         public DbSet<Mission> Missions { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) { 
-            optionsBuilder.UseSqlite("Data Source = database/SpaceR2.db"); 
+            optionsBuilder.UseSqlite("Data Source = SpaceR2.db"); 
         }
 
         protected override void OnModelCreating(ModelBuilder builder)
