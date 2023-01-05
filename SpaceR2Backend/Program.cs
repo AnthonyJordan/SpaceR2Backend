@@ -7,7 +7,6 @@ using SpaceR2Backend.database;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
@@ -19,7 +18,7 @@ builder.Services.AddHangfire(configuration => configuration
         .UseSQLiteStorage());
 builder.Services.AddHangfireServer();
 
-//todo: fix best practices
+
 builder.Services.AddScoped<PoDDAO, PoDDAO>();
 builder.Services.AddScoped<PeopleDAO, PeopleDAO>();
 builder.Services.AddScoped<LaunchDAO, LaunchDAO>();

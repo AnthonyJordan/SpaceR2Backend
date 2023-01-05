@@ -26,8 +26,8 @@ namespace SpaceR2Backend.DAOs
         {
             try
             {
-                JObject respone = JObject.Parse(await _httpClient.GetStringAsync("http://api.open-notify.org/astros.json"));
-                List<JToken> JTokens = respone["people"].Children().ToList();
+                JObject response = JObject.Parse(await _httpClient.GetStringAsync("http://api.open-notify.org/astros.json"));
+                List<JToken> JTokens = response["people"].Children().ToList();
                 List<PersonModel> People = new List<PersonModel>();
                 foreach (JToken JToken in JTokens)
                 {

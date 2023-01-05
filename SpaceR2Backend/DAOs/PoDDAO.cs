@@ -37,8 +37,8 @@ namespace SpaceR2Backend.DAOs
         {
             try
             {
-                JToken respone = JToken.Parse(await _httpClient.GetStringAsync("https://api.nasa.gov/planetary/apod?api_key=DEMO_KEY"));
-                NasaPoDModel NasaPoD = respone.ToObject<NasaPoDModel>();
+                JToken response = JToken.Parse(await _httpClient.GetStringAsync("https://api.nasa.gov/planetary/apod?api_key=DEMO_KEY"));
+                NasaPoDModel NasaPoD = response.ToObject<NasaPoDModel>();
                 SavePoD(NasaPoD);
             }
             catch (Exception ex) {

@@ -29,8 +29,8 @@ namespace SpaceR2Backend.DAOs
             try
             {
                 string dateTime = DateTime.Now.ToString("s");
-                JObject respone = JObject.Parse(await _httpClient.GetStringAsync($"https://ll.thespacedevs.com/2.2.0/launch/?limit=10&ordering=window_start&window_start__gt={dateTime}"));
-                List<JToken> JTokens = respone["results"].Children().ToList();
+                JObject response = JObject.Parse(await _httpClient.GetStringAsync($"https://ll.thespacedevs.com/2.2.0/launch/?limit=10&ordering=window_start&window_start__gt={dateTime}"));
+                List<JToken> JTokens = response["results"].Children().ToList();
                 List<Launch> Launches = new List<Launch>();
                 foreach (JToken JToken in JTokens)
                 {
